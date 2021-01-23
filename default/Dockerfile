@@ -10,7 +10,7 @@ FROM node:lts-alpine
 WORKDIR /usr/local/nodejs-poolController-dashPanel
 COPY --from=builder /work/node_modules .
 # Consider moving these files to dist folder
-COPY --from=builder /work/LICENSE /work/defaultConfig.json /work/package.json ./
+COPY --from=builder /work/defaultConfig.json /work/package.json ./
 COPY --from=builder /work .
 EXPOSE 80
 VOLUME [ "/usr/local/nodejs-poolController-dashPanel/data" ]
