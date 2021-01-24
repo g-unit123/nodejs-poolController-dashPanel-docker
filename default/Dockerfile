@@ -14,4 +14,4 @@ COPY --from=builder /work/defaultConfig.json /work/package.json ./
 COPY --from=builder /work .
 EXPOSE 80
 VOLUME [ "/usr/local/nodejs-poolController-dashPanel/data" ]
-ENTRYPOINT ["node", "app.js"]
+ENTRYPOINT ["node", "dist/app.js"]
