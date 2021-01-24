@@ -11,7 +11,7 @@ WORKDIR /usr/local/nodejs-poolController-dashPanel
 COPY --from=builder /work/node_modules .
 # Consider moving these files to dist folder
 COPY --from=builder /work/defaultConfig.json /work/package.json ./
-COPY --from=builder /work .
-EXPOSE 80
+COPY --from=builder /work/dist/. ./
+EXPOSE 5150
 VOLUME [ "/usr/local/nodejs-poolController-dashPanel/data" ]
-ENTRYPOINT ["node", "dist/app.js"]
+ENTRYPOINT ["node", "app.js"]
