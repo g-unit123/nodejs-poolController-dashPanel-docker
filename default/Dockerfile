@@ -13,8 +13,12 @@ WORKDIR /app
 COPY --chown=node:node --from=build /app/node_modules ./node_modules
 COPY --chown=node:node --from=build /app/defaultConfig.json /app/package.json ./
 COPY --chown=node:node --from=build /app/dist ./dist
-COPY --chown=node:node --from=build /app/logger ./logger
-COPY --chown=node:node --from=build /app/web ./web
+COPY --chown=node:node --from=build /app/pages ./pages
+COPY --chown=node:node --from=build /app/scripts ./scripts
+COPY --chown=node:node --from=build /app/server ./server
+COPY --chown=node:node --from=build /app/themes ./themes
+#COPY --chown=node:node --from=build /app/logger ./logger
+#COPY --chown=node:node --from=build /app/web ./web
 RUN mkdir /app/config_file
 #RUN cp /app/defaultConfig.json /app/config_file/config.json
 #RUN ln -s /app/config_file/config.json /app/config.json
