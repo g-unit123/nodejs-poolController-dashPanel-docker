@@ -1,17 +1,24 @@
-FROM node:lts-alpine as builder
-ARG TAG=master
-RUN apk add --no-cache git python build-base linux-headers udev
-WORKDIR /work
+FROM node:12-alpine AS build
+ARG TAG=next
+RUN apk add --no-cache make gcc g++ python linux-headers udev tzdata git
+WORKDIR /app
 RUN npx degit rstrouse/nodejs-poolController-dashPanel#${TAG}
-RUN npm ci
-RUN npm run build
+RUN npm install
+RUN npm run build && npm prune --production
 
-FROM node:lts-alpine
-WORKDIR /usr/local/nodejs-poolController-dashPanel
-COPY --from=builder /work/node_modules .
-# Consider moving these files to dist folder
-COPY --from=builder /work/defaultConfig.json /work/package.json ./
-COPY --from=builder /work/dist .
+
+FROM node:12-alpine as prod
+RUN mkdir /app && chown node:node /app
+WORKDIR /app
+COPY --chown=node:node --from=build /app/node_modules ./node_modules
+COPY --chown=node:node --from=build /app/defaultConfig.json /app/package.json ./
+COPY --chown=node:node --from=build /app/dist ./dist
+COPY --chown=node:node --from=build /app/logger ./logger
+COPY --chown=node:node --from=build /app/web ./web
+RUN mkdir /app/config_file
+#RUN cp /app/defaultConfig.json /app/config_file/config.json
+#RUN ln -s /app/config_file/config.json /app/config.json
+USER node
 EXPOSE 5150
-VOLUME [ "/usr/local/nodejs-poolController-dashPanel/data" ]
+ENV NODE_ENV=production
 ENTRYPOINT ["node", "dist/app.js"]
