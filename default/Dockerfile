@@ -3,9 +3,9 @@ ARG TAG=master
 RUN apk add --no-cache make gcc g++ python linux-headers udev tzdata git
 WORKDIR /app
 RUN npx degit rstrouse/nodejs-poolController-dashPanel#${TAG}
-#RUN npm install
-#RUN npm run build && npm prune --production
-RUN npm i
+RUN npm install
+RUN npm run build && npm prune --production
+#RUN npm i
 
 FROM node:12-alpine as prod
 RUN mkdir /app && chown node:node /app
@@ -26,5 +26,5 @@ RUN mkdir /app/config_file
 USER node
 EXPOSE 5150
 ENV NODE_ENV=production
-#ENTRYPOINT ["node", "dist/app.js"]
-ENTRYPOINT ["npm","start&"]
+ENTRYPOINT ["node", "dist/app.js"]
+#ENTRYPOINT ["npm","start&"]
