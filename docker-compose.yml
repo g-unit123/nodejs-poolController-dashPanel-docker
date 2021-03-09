@@ -1,13 +1,18 @@
 version: "3.9"
 
+volumes:
+  nodejs-poolcontroller-dashpanel:
+
 services:
 
 #NodeJS-PoolController-dashPanel
   #Core
-  nodeJS-poolController-dashPanel:
-    build: ./default
+ nodeJS-poolController-dashPanel:
+    build: ./nodejs-poolController-dashPanel-docker/default
     restart: on-failure
     network_mode: host
     ports:
-      -80:80
-      -443:443
+      - 80:5150
+    volumes:
+      - nodejs-poolcontroller-dashpanel:/app/config_file
+
