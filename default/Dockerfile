@@ -1,4 +1,4 @@
-FROM node:12-alpine AS build
+FROM node:lts-alpine AS build
 ARG TAG=master
 RUN apk add --no-cache make gcc g++ python linux-headers udev tzdata git
 WORKDIR /app
@@ -6,8 +6,8 @@ RUN npx degit rstrouse/nodejs-poolController-dashPanel#${TAG}
 RUN npm install
 RUN npm run build && npm prune --production
 
-FROM node:12-alpine as prod
-RUN mkdir /app && chown node:node /app
+FROM node:lts-alpine as prod
+RUN mkdir /app && chown node:node /app && mkdir /app/data && chown node:node /app/data
 WORKDIR /app
 COPY --chown=node:node --from=build /app /app
 RUN mkdir /app/config_file
