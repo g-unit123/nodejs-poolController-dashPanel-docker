@@ -1,4 +1,4 @@
-FROM node:lts-alpine as builder
+FROM node:lts-alpine AS build
 ARG TAG=master
 RUN apk add --no-cache git python3 build-base linux-headers udev
 WORKDIR /work
@@ -15,5 +15,12 @@ COPY --chown=node:node --from=build /app .
 EXPOSE 5150
 VOLUME [ "/usr/local/nodejs-poolController-dashPanel/data" ]
 USER node
+#FROM node:lts-alpine as prod
+#RUN apk add git
+#RUN mkdir /app && chown node:node /app
+#WORKDIR /app
+#COPY --chown=node:node --from=build /app /app
+#USER node
+#EXPOSE 5150
 ENV NODE_ENV=production
 ENTRYPOINT ["node", "dist/app.js"]
