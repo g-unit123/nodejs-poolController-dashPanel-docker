@@ -11,7 +11,7 @@ FROM node:lts-alpine
 RUN apk add git
 RUN mkdir /app && chown node:node /app && mkdir /app/data && chown node:node /app/data
 WORKDIR /app
-COPY --chown=node:node --from=build /app /app
+COPY --chown=node:node --from=build /app .
 EXPOSE 5150
 VOLUME [ "/usr/local/nodejs-poolController-dashPanel/data" ]
 USER node
