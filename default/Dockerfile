@@ -16,4 +16,5 @@ EXPOSE 5150
 VOLUME [ "/app/data" ]
 USER node
 ENV NODE_ENV=production
+ENV POOL_HTTP_IP=192.168.0.92
 ENTRYPOINT ["node", "dist/app.js"]
